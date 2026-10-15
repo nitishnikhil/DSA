@@ -1,20 +1,18 @@
 class Solution {
 public:
-    vector<int> dp = vector<int>(101, -1);
-    int solve(vector<int>& nums, int i) {
-
-        // Base case
-        if (i >= nums.size())
-            return 0;
-        if(dp[i]!=-1)
-            return dp[i];
-        int first = nums[i] + solve(nums, i + 2);
-        int second = solve(nums, i + 1);
-
-        return dp[i]=max(first, second);
-    }
-
     int rob(vector<int>& nums) {
-        return solve(nums, 0);
+        int n=nums.size();
+        vector<int> t(n+1, 0);
+        if(n==0)
+        return 0;
+        t[0]=0;
+        t[1]=nums[0];
+
+        for(int i=2; i<=n; i++){
+            int steal=nums[i-1]+ t[i-2];
+            int skip=t[i-1];
+            t[i]=max(steal, skip);
+        }
+        return t[n];
     }
 };
